@@ -7,47 +7,36 @@ import {
 } from "react";
 
 
-// Create the Context
 const TaskContext = createContext(null);
 
 
-// Key used to store tasks in localStorage
 const STORAGE_KEY = "todo_tasks";
 
 
-// Get tasks from localStorage when the application starts
 function getInitialTasks() {
   const savedTasks = localStorage.getItem(STORAGE_KEY);
 
-  // If nothing is saved, return an empty array
   if (!savedTasks) {
     return [];
   }
 
-  // Try to convert the saved string back into JavaScript data
   try {
     return JSON.parse(savedTasks);
   } catch {
-    // If the saved data is invalid, start with no tasks
     return [];
   }
 }
 
 
-// Initial state of our application
 const initialState = {
   tasks: getInitialTasks(),
 };
 
 
-// Reducer handles all changes to our task state
 function taskReducer(state, action) {
 
   switch (action.type) {
 
-    // --------------------------------
-    // ADD TASK
-    // --------------------------------
     case "ADD_TASK": {
       const newTask = {
         id: Date.now(),
@@ -57,13 +46,11 @@ function taskReducer(state, action) {
         createdAt: new Date().toISOString(),
       };
 
-      // Create a new tasks array
       const updatedTasks = [
         ...state.tasks,
         newTask,
       ];
 
-      // Return the new state
       return {
         ...state,
         tasks: updatedTasks,
@@ -71,17 +58,11 @@ function taskReducer(state, action) {
     }
 
 
-    // --------------------------------
-    // DELETE TASK
-    // --------------------------------
     case "DELETE_TASK": {
       const updatedTasks = [];
 
-      // Go through every task
       for (const task of state.tasks) {
 
-        // Keep the task if its ID is NOT
-        // the ID we want to delete
         if (task.id !== action.payload) {
           updatedTasks.push(task);
         }
@@ -94,31 +75,22 @@ function taskReducer(state, action) {
     }
 
 
-    // --------------------------------
-    // TOGGLE TASK
-    // --------------------------------
     case "TOGGLE_TASK": {
       const updatedTasks = [];
 
-      // Go through every task
       for (const task of state.tasks) {
 
-        // Check if this is the task
-        // we want to toggle
         if (task.id === action.payload) {
 
-          // Create a new task object
           const updatedTask = {
             ...task,
             completed: !task.completed,
           };
 
-          // Add updated task
           updatedTasks.push(updatedTask);
 
         } else {
 
-          // Keep other tasks unchanged
           updatedTasks.push(task);
         }
       }
@@ -130,20 +102,13 @@ function taskReducer(state, action) {
     }
 
 
-    // --------------------------------
-    // UPDATE TASK
-    // --------------------------------
     case "UPDATE_TASK": {
       const updatedTasks = [];
 
-      // Go through every task
       for (const task of state.tasks) {
 
-        // Find the task that needs to be edited
         if (task.id === action.payload.id) {
 
-          // Create a new task with
-          // updated title and description
           const updatedTask = {
             ...task,
             title: action.payload.title,
@@ -154,7 +119,6 @@ function taskReducer(state, action) {
 
         } else {
 
-          // Keep other tasks unchanged
           updatedTasks.push(task);
         }
       }
@@ -166,16 +130,11 @@ function taskReducer(state, action) {
     }
 
 
-    // --------------------------------
-    // CLEAR COMPLETED TASKS
-    // --------------------------------
     case "CLEAR_COMPLETED": {
       const updatedTasks = [];
 
-      // Go through every task
       for (const task of state.tasks) {
 
-        // Keep only incomplete tasks
         if (!task.completed) {
           updatedTasks.push(task);
         }
@@ -188,29 +147,20 @@ function taskReducer(state, action) {
     }
 
 
-    // --------------------------------
-    // UNKNOWN ACTION
-    // --------------------------------
     default:
       return state;
   }
 }
 
 
-// Provider component
 export function TaskProvider({ children }) {
 
-  // useReducer gives us:
-  // 1. current state
-  // 2. dispatch function
   const [state, dispatch] = useReducer(
     taskReducer,
     initialState
   );
 
 
-  // Save tasks to localStorage
-  // whenever state.tasks changes
   useEffect(() => {
 
     localStorage.setItem(
@@ -220,10 +170,6 @@ export function TaskProvider({ children }) {
 
   }, [state.tasks]);
 
-
-  // --------------------------------
-  // ADD TASK FUNCTION
-  // --------------------------------
 
   const addTask = useCallback((task) => {
 
@@ -235,10 +181,6 @@ export function TaskProvider({ children }) {
   }, []);
 
 
-  // --------------------------------
-  // DELETE TASK FUNCTION
-  // --------------------------------
-
   const deleteTask = useCallback((id) => {
 
     dispatch({
@@ -249,10 +191,6 @@ export function TaskProvider({ children }) {
   }, []);
 
 
-  // --------------------------------
-  // TOGGLE TASK FUNCTION
-  // --------------------------------
-
   const toggleTask = useCallback((id) => {
 
     dispatch({
@@ -262,10 +200,6 @@ export function TaskProvider({ children }) {
 
   }, []);
 
-
-  // --------------------------------
-  // UPDATE TASK FUNCTION
-  // --------------------------------
 
   const updateTask = useCallback((id, task) => {
 
@@ -282,10 +216,6 @@ export function TaskProvider({ children }) {
   }, []);
 
 
-  // --------------------------------
-  // CLEAR COMPLETED FUNCTION
-  // --------------------------------
-
   const clearCompleted = useCallback(() => {
 
     dispatch({
@@ -294,10 +224,6 @@ export function TaskProvider({ children }) {
 
   }, []);
 
-
-  // --------------------------------
-  // CONTEXT VALUE
-  // --------------------------------
 
   const value = useMemo(() => {
 
@@ -325,10 +251,6 @@ export function TaskProvider({ children }) {
   ]);
 
 
-  // --------------------------------
-  // PROVIDE DATA TO CHILD COMPONENTS
-  // --------------------------------
-
   return (
     <TaskContext.Provider value={value}>
       {children}
@@ -337,5 +259,4 @@ export function TaskProvider({ children }) {
 }
 
 
-// Export Context
 export default TaskContext;
