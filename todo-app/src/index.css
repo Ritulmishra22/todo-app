@@ -38,8 +38,6 @@ a {
   color: inherit;
 }
 
-/* APP */
-
 .app {
   min-height: 100vh;
   display: flex;
@@ -114,8 +112,6 @@ a {
   padding: 12px 14px;
 }
 
-/* MAIN */
-
 .main-content {
   flex: 1;
   padding: 50px;
@@ -145,8 +141,6 @@ a {
 .page-header p {
   color: #6b7280;
 }
-
-/* BUTTONS */
 
 .primary-button {
   display: inline-flex;
@@ -179,8 +173,6 @@ a {
   background: #f7f7fa;
 }
 
-/* QUICK ADD */
-
 .quick-add {
   display: flex;
   gap: 10px;
@@ -199,8 +191,6 @@ a {
 .quick-add-input:hover {
   border-color: #5146e5;
 }
-
-/* FILTERS */
 
 .filters {
   display: flex;
@@ -231,8 +221,6 @@ a {
   height: 2px;
   background: #5146e5;
 }
-
-/* TASK LIST */
 
 .task-list {
   background: white;
@@ -336,8 +324,6 @@ a {
   background: #fff1f2;
 }
 
-/* EMPTY STATE */
-
 .empty-state {
   background: white;
   border: 1px solid #e7e8ed;
@@ -367,8 +353,6 @@ a {
   color: #9ca3af;
 }
 
-/* FOOTER */
-
 .task-footer {
   display: flex;
   justify-content: space-between;
@@ -388,8 +372,6 @@ a {
 .clear-button:hover {
   text-decoration: underline;
 }
-
-/* FORM */
 
 .form-page {
   width: 100%;
@@ -471,8 +453,6 @@ a {
   width: 100%;
 }
 
-/* 404 */
-
 .not-found-page {
   min-height: 70vh;
   display: flex;
@@ -512,8 +492,6 @@ a {
 .not-found-inline h2 {
   margin-bottom: 20px;
 }
-
-/* RESPONSIVE */
 
 @media (max-width: 768px) {
   .app {
